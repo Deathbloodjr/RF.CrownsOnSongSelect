@@ -4,18 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <ModName>ModTemplate</ModName>
+    <ModName>CrownsOnSongSelect</ModName>
     <ModVersion>0.0.1</ModVersion>
   </PropertyGroup>
   
   <Target Name="UserFile" AfterTargets="PreBuildEvent">
     <Copy
       Condition="!Exists('.\$(MSBuildProjectDir)\$(ModName).csproj.user')"
-      SourceFiles=".\$(MSBuildProjectDir)\Resources\Template.csproj.user"
+      SourceFiles="..\$(MSBuildProjectDir)\Resources\Template.csproj.user"
       DestinationFiles=".\$(MSBuildProjectDir)\$(ModName).csproj.user"/>
     <Error
       Condition="$(GameDir)==''"
-      Text="Set the GameDir variable in .csproj.user file to your Rhythm Festival executable directory."/>
+      Text="Set the GameDir variable in the $(ModName).csproj.user file to your Rhythm Festival executable directory."/>
   </Target>
 
   <PropertyGroup>
