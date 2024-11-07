@@ -1,6 +1,7 @@
 ﻿using Scripts.OutGame.Common;
 using Scripts.OutGame.SongSelect;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,19 @@ namespace CrownsOnSongSelect.Plugins
     {
         public static Dictionary<DataConst.CrownType, Sprite> CrownSprites = new Dictionary<DataConst.CrownType, Sprite>();
         public static Dictionary<EnsoData.EnsoLevelType, Sprite> DifficultySprites = new Dictionary<EnsoData.EnsoLevelType, Sprite>();
+
+        public static bool IsInitialized()
+        {
+            ClearNullsFromCrownDictionary();
+            ClearNullsFromDiffDictionary();
+
+            if (CrownSprites.Count > 0 &&
+                DifficultySprites.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public static void InitializeCrownSprites(SongSelectSprite songSelectSprite)
         {
@@ -62,7 +76,7 @@ namespace CrownsOnSongSelect.Plugins
         }
 
         
-        public static void InitializeDifficultySprites()
+        public static void InitializeDifficultySprites(AllDifficultyScoreBoard __instance)
         {
             ClearNullsFromDiffDictionary();
 
@@ -85,9 +99,16 @@ namespace CrownsOnSongSelect.Plugins
                 { "ScoreComponent (4)", EnsoData.EnsoLevelType.Ura },
             };
 
-            GameObject obj = GameObject.Find("ScoreBoards");
-            var children = obj.GetComponentsInChildren<DifficultyScorePanel>();
-            for (int i = 0; i < children.Length; i++)
+            //GameObject obj;
+            //do
+            //{
+            //    obj = GameObject.Find("ScoreList");
+            //    yield return new WaitForEndOfFrame();
+            //} while (obj == null);
+
+            //var children = obj.GetComponentsInChildren<DifficultyScorePanel>();
+            var children = __instance.scorePanels;
+            for (int i = 0; i < children.Count; i++)
             {
                 if (!DifficultySprites.ContainsKey(GameObjectNameToEnsoLevel[children[i].name]))
                 {

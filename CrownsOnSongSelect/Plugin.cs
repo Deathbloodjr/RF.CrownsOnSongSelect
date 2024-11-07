@@ -58,7 +58,7 @@ namespace CrownsOnSongSelect
                 result &= PatchFile(typeof(CrownsOnSongSelectPatch));
                 result &= PatchFile(typeof(CrownsOnSongSelectPatch.UiSongButtonSetupPatch));
 #if DEBUG
-                result &= PatchFile(typeof(EnableAllIconsForTesting));
+                //result &= PatchFile(typeof(EnableAllIconsForTesting));
 #endif
                 if (result)
                 {
