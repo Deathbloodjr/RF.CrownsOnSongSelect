@@ -43,6 +43,8 @@ namespace CrownsOnSongSelect.Plugins
 
         void InitializeCrownGameObjects(GameObject parent)
         {
+
+
             GameObject crownParent = new GameObject("Crown");
             crownParent.transform.SetParent(parent.transform);
             crownParent.transform.localPosition = Vector2.zero;
@@ -81,8 +83,18 @@ namespace CrownsOnSongSelect.Plugins
             CrownGameObjects.Add(crownId, crownObj);
         }
 
-        internal void ChangeCrowns(MusicDataInterface.MusicInfoAccesser musicInfo)
+        internal IEnumerator ChangeCrowns(MusicDataInterface.MusicInfoAccesser musicInfo)
         {
+            if (musicInfo == null)
+            {
+                yield return null;
+            }
+
+            while (!SpriteInitialization.IsInitialized())
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             // I need to test this when I have a controller available
             var numPlayers = TaikoSingletonMonoBehaviour<CommonObjects>.Instance.MyDataManager.EnsoData.ensoSettings.playerNum;
             Logger.Log(numPlayers.ToString(), LogType.Debug);

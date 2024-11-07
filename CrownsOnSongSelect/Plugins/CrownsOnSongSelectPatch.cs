@@ -28,7 +28,16 @@ namespace CrownsOnSongSelect.Plugins
         {
             ClearUiSongButtonDictionary();
             SpriteInitialization.InitializeCrownSprites(__instance.songSelectSprite);
-            SpriteInitialization.InitializeDifficultySprites();
+            //SpriteInitialization.InitializeDifficultySprites();
+        }
+
+        [HarmonyPatch(typeof(AllDifficultyScoreBoard))]
+        [HarmonyPatch(nameof(AllDifficultyScoreBoard.Setup))]
+        [HarmonyPatch(MethodType.Normal)]
+        [HarmonyPostfix]
+        public static void AllDifficultyScoreBoard_Setup_Postfix(AllDifficultyScoreBoard __instance)
+        {
+            SpriteInitialization.InitializeDifficultySprites(__instance);
         }
 
         private static void ClearUiSongButtonDictionary()
@@ -79,7 +88,7 @@ namespace CrownsOnSongSelect.Plugins
             {
                 UiSongCenterButtonObject = new ButtonCrownObject(__instance);
             }
-            UiSongCenterButtonObject.ChangeCrowns(item);
+            Plugin.Instance.StartCoroutine(UiSongCenterButtonObject.ChangeCrowns(item));
         }
 
         [HarmonyPatch]
@@ -96,7 +105,7 @@ namespace CrownsOnSongSelect.Plugins
                 {
                     UiSongButtonObjects.Add(__instance, new ButtonCrownObject(__instance));
                 }
-                UiSongButtonObjects[__instance].ChangeCrowns(model.Value);
+                Plugin.Instance.StartCoroutine(UiSongButtonObjects[__instance].ChangeCrowns(model.Value));
             }
         }
     }
