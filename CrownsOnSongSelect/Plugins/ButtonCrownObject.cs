@@ -85,49 +85,57 @@ namespace CrownsOnSongSelect.Plugins
 
         internal IEnumerator ChangeCrowns(MusicDataInterface.MusicInfoAccesser musicInfo)
         {
-            if (musicInfo == null)
+            if (musicInfo != null)
             {
-                yield return null;
-            }
-
-            while (!SpriteInitialization.IsInitialized())
-            {
-                yield return new WaitForEndOfFrame();
-            }
-
-            // I need to test this when I have a controller available
-            var numPlayers = TaikoSingletonMonoBehaviour<CommonObjects>.Instance.MyDataManager.EnsoData.ensoSettings.playerNum;
-            Logger.Log(numPlayers.ToString(), LogType.Debug);
-
-
-            for (int i = 0; i < numPlayers; i++)
-            {
-                if (musicInfo.Stars[(int)EnsoData.EnsoLevelType.Ura] == 0)
+                while (!SpriteInitialization.IsInitialized())
                 {
-                    ChangeCrown(new CrownData(i, DataConst.CrownType.Off, EnsoData.EnsoLevelType.Ura));
-                }
-                else
-                {
-                    MusicDataUtility.GetNormalRecordInfo(i, musicInfo.UniqueId, EnsoData.EnsoLevelType.Ura, out var ura);
-                    ChangeCrown(new CrownData(i, ura.crown, EnsoData.EnsoLevelType.Ura));
+                    yield return new WaitForEndOfFrame();
                 }
 
-                bool crownFound = false;
-                for (EnsoData.EnsoLevelType j = EnsoData.EnsoLevelType.Mania; j >= EnsoData.EnsoLevelType.Easy; j--)
+                // I need to test this when I have a controller available
+                var numPlayers = TaikoSingletonMonoBehaviour<CommonObjects>.Instance.MyDataManager.EnsoData.ensoSettings.playerNum;
+                Logger.Log(numPlayers.ToString(), LogType.Debug);
+
+                for (int i = 0; i < 1; i++)
                 {
-                    MusicDataUtility.GetNormalRecordInfo(0, musicInfo.UniqueId, j, out var result);
-                    if (result.crown != DataConst.CrownType.None)
+                    // Changing for player 2, but there's only 1 player
+                    // Actually this numPlayers is incorrect anyway
+                    //if (i == 1 && numPlayers == 1)
+                    //{
+
+                    //}
+                    if (musicInfo.Stars.Length >= (int)EnsoData.EnsoLevelType.Ura &&
+                        musicInfo.Stars[(int)EnsoData.EnsoLevelType.Ura] == 0)
                     {
-                        crownFound = true;
-                        ChangeCrown(new CrownData(i, result.crown, j));
-                        break;
+                        ChangeCrown(new CrownData(i, DataConst.CrownType.Off, EnsoData.EnsoLevelType.Ura));
+                    }
+                    else
+                    {
+                        MusicDataUtility.GetNormalRecordInfo(i, musicInfo.UniqueId, EnsoData.EnsoLevelType.Ura, out var ura);
+                        ChangeCrown(new CrownData(i, ura.crown, EnsoData.EnsoLevelType.Ura));
+                    }
+
+                    bool crownFound = false;
+                    for (EnsoData.EnsoLevelType j = EnsoData.EnsoLevelType.Mania; j >= EnsoData.EnsoLevelType.Easy; j--)
+                    {
+                        MusicDataUtility.GetNormalRecordInfo(0, musicInfo.UniqueId, j, out var result);
+                        if (result.crown != DataConst.CrownType.None)
+                        {
+                            crownFound = true;
+                            ChangeCrown(new CrownData(i, result.crown, j));
+                            break;
+                        }
+                    }
+
+                    if (!crownFound)
+                    {
+                        ChangeCrown(new CrownData(i, DataConst.CrownType.None, EnsoData.EnsoLevelType.Num));
                     }
                 }
-
-                if (!crownFound)
-                {
-                    ChangeCrown(new CrownData(i, DataConst.CrownType.None, EnsoData.EnsoLevelType.Num));
-                }
+            }
+            else
+            {
+                ChangeCrown(new CrownData(0, DataConst.CrownType.Off, EnsoData.EnsoLevelType.Num));
             }
         }
 
