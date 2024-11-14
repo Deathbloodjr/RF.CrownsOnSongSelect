@@ -133,6 +133,10 @@ namespace CrownsOnSongSelect.Plugins
                     }
                 }
             }
+            else
+            {
+                ChangeCrown(new CrownData(0, DataConst.CrownType.Off, EnsoData.EnsoLevelType.Num));
+            }
         }
 
         void ChangeCrown(CrownData data)
