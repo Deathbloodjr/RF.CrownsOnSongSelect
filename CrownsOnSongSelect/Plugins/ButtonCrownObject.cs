@@ -43,8 +43,6 @@ namespace CrownsOnSongSelect.Plugins
 
         void InitializeCrownGameObjects(GameObject parent)
         {
-
-
             GameObject crownParent = new GameObject("Crown");
             crownParent.transform.SetParent(parent.transform);
             crownParent.transform.localPosition = Vector2.zero;
@@ -87,6 +85,7 @@ namespace CrownsOnSongSelect.Plugins
         {
             if (musicInfo != null)
             {
+                //Logger.Log("musicInfo.Id:" + musicInfo.Id);
                 while (!SpriteInitialization.IsInitialized())
                 {
                     yield return new WaitForEndOfFrame();
@@ -94,7 +93,7 @@ namespace CrownsOnSongSelect.Plugins
 
                 // I need to test this when I have a controller available
                 var numPlayers = TaikoSingletonMonoBehaviour<CommonObjects>.Instance.MyDataManager.EnsoData.ensoSettings.playerNum;
-                Logger.Log(numPlayers.ToString(), LogType.Debug);
+                //Logger.Log(numPlayers.ToString(), LogType.Debug);
 
                 for (int i = 0; i < 1; i++)
                 {
@@ -135,7 +134,9 @@ namespace CrownsOnSongSelect.Plugins
             }
             else
             {
+                Logger.Log("musicInfo == null");
                 ChangeCrown(new CrownData(0, DataConst.CrownType.Off, EnsoData.EnsoLevelType.Num));
+                ChangeCrown(new CrownData(0, DataConst.CrownType.Off, EnsoData.EnsoLevelType.Ura));
             }
         }
 
@@ -144,7 +145,10 @@ namespace CrownsOnSongSelect.Plugins
             var crownId = data.CrownId;
             if (data.Crown == DataConst.CrownType.Off)
             {
-                CrownGameObjects[crownId].SetActive(false);
+                //if (CrownGameObjects.ContainsKey(crownId))
+                {
+                    CrownGameObjects[crownId].SetActive(false);
+                }
                 return;
             }
 
