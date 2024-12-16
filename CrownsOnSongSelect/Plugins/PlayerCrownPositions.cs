@@ -185,7 +185,8 @@ namespace CrownsOnSongSelect.Plugins
             {
                 case CrownIdPosition.P1OniSelected:
                     return new CrownPosition(
-                            new Vector2(-445, 110),
+                            //new Vector2(-445, 110),
+                            new Vector2(-500, 62),
                             new Vector2(1f, 1f));
                 case CrownIdPosition.P1OniUnselected:
                     return new CrownPosition(
@@ -193,7 +194,8 @@ namespace CrownsOnSongSelect.Plugins
                             new Vector2(0.8f, 0.8f));
                 case CrownIdPosition.P1UraSelected:
                     return new CrownPosition(
-                            new Vector2(-445, 55),
+                            //new Vector2(-445, 55),
+                            new Vector2(-500, 7),
                             new Vector2(1f, 1f));
                 case CrownIdPosition.P1UraUnselected:
                     return new CrownPosition(
